@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:chaudiere_mobile/screens/events_master.dart';
 
 class ChaudiereApp extends StatefulWidget {
   const ChaudiereApp({super.key});
@@ -20,10 +21,8 @@ class _ChaudiereAppState extends State<ChaudiereApp> {
         appBar: AppBar(
           title: const Text('Chaudière'),
         ),
-        body: Center(
-          child: const Text('Welcome to Chaudière!'),
+        body: EventsMaster(),
         ),
-      ),
-    );
+      );
   }
 }
