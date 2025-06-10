@@ -1,4 +1,4 @@
-import 'package:chaudiere_mobile/screens/evenements_master.dart';
+import 'package:chaudiere_mobile/screens/events_master.dart';
 import 'package:flutter/material.dart';
 
 class ChaudiereApp extends StatefulWidget {
@@ -19,7 +19,7 @@ class _ChaudiereAppState extends State<ChaudiereApp> {
         appBar: AppBar(
           title: Text('Chaudiere Mobile'),
         ),
-        body: EvenementsMaster(),
+        body: EventsMaster(),
       ),
     );
   }

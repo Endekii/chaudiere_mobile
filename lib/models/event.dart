@@ -37,4 +37,21 @@ class Event {
       _ => throw const FormatException('Failed to load Event'),
     };
   }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'titre': titre,
+      'description_md': description,
+      'tarif': tarif,
+      'date_debut': dateDebut,
+      'date_fin': dateFin,
+      'horaire': horaire,
+      'publie': publie ? 1 : 0,
+      'image': image,
+      'categorie_id': categorieId,
+      'cree_par': creePar,
+      'date_creation': dateCreation,
+    };
+  }
 }
