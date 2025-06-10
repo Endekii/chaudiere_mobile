@@ -1,28 +1,25 @@
+import 'package:chaudiere_mobile/screens/evenements_master.dart';
 import 'package:flutter/material.dart';
 
 class ChaudiereApp extends StatefulWidget {
-  const ChaudiereApp({super.key});
-
+  const ChaudiereApp({Key? key}) : super(key: key);
   @override
-  State<ChaudiereApp> createState() => _ChaudiereAppState();
+  _ChaudiereAppState createState() => _ChaudiereAppState();
 }
 
 class _ChaudiereAppState extends State<ChaudiereApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Chaudière',
+      title: 'Chaudiere Mobile',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Chaudière'),
+          title: Text('Chaudiere Mobile'),
         ),
-        body: Center(
-          child: const Text('Welcome to Chaudière!'),
-        ),
+        body: EvenementsMaster(),
       ),
     );
   }
