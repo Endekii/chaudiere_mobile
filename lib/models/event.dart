@@ -12,22 +12,19 @@ class Event {
   const Event(this.dateFin, this.horaire, {required this.id, required this.titre, required this.description, required this.tarif, required this.dateDebut, required this.image, required this.categorieId});
 
   factory Event.fromJson(Map<String, dynamic> json){
-    return switch (json){
-      {'id': int id, 'titre': String titre, 'description_md': String description, 'tarif': String tarif,
-      'date_debut': String dateDebut, 'date_fin': String? dateFin, 'horaire': String? horaire, 'image': Map<String, dynamic> image,
-      'categorie_id': int categorieId} => Event(
-          dateFin != null ? DateTime.parse(dateFin) : null,
-          horaire != null ? DateTime.parse(horaire) : null,
-          id : id,
-          titre : titre,
-          description : description,
-          tarif : tarif,
-          dateDebut : DateTime.parse(dateDebut),
-          image : image['href'] ?? '',
-          categorieId : categorieId
-      ),
-      _ => throw const FormatException('Failed to load Event'),
-    };
+    return Event(
+      json['date_fin'] != null ? DateTime.tryParse(json['date_fin']) : null,
+      json['horaire'] != null ? DateTime.tryParse(json['horaire']) : null,
+      id: json['id'] as int,
+      titre: json['titre'] as String,
+      description: json['description_md'] ?? '', // champ absent dans l'API
+      tarif: json['tarif'] ?? '', // champ absent dans l'API
+      dateDebut: DateTime.parse(json['date_debut']),
+      image: json['image'] != null && json['image'] is Map<String, dynamic>
+          ? (json['image']['href'] ?? '')
+          : '', // champ absent dans l'API
+      categorieId: json['categorie_id'] as int,
+    );
   }
 
   Map<String, dynamic> toMap() {
