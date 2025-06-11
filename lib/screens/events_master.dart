@@ -10,8 +10,8 @@ Future<Event> fetchEvent() async {
   );
 
   if (response.statusCode == 200) {
-    print(response.body);
-    return Event.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    Map<String, dynamic> test = jsonDecode(response.body);
+    return Event.fromJson(test['evenement']);
   } else {
     throw Exception('Failed to load event');
   }

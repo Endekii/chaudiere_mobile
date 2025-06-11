@@ -2,10 +2,10 @@ class Event {
   final int id;
   final String titre;
   final String description;
-  final double tarif;
-  final String dateDebut;
-  final String? dateFin;
-  final String? horaire;
+  final String tarif;
+  final DateTime dateDebut;
+  final DateTime? dateFin;
+  final DateTime? horaire;
   final String image;
   final int categorieId;
 
@@ -13,17 +13,17 @@ class Event {
 
   factory Event.fromJson(Map<String, dynamic> json){
     return switch (json){
-      {'id': int id, 'titre': String titre, 'description_md': String description, 'tarif': double tarif,
-      'date_debut': String dateDebut, 'date_fin': String? dateFin, 'horaire': String? horaire, 'image': String image,
+      {'id': int id, 'titre': String titre, 'description_md': String description, 'tarif': String tarif,
+      'date_debut': String dateDebut, 'date_fin': String? dateFin, 'horaire': String? horaire, 'image': Map<String, dynamic> image,
       'categorie_id': int categorieId} => Event(
-          dateFin,
-          horaire,
+          dateFin != null ? DateTime.parse(dateFin) : null,
+          horaire != null ? DateTime.parse(horaire) : null,
           id : id,
           titre : titre,
           description : description,
           tarif : tarif,
-          dateDebut : dateDebut,
-          image : image,
+          dateDebut : DateTime.parse(dateDebut),
+          image : image['href'] ?? '',
           categorieId : categorieId
       ),
       _ => throw const FormatException('Failed to load Event'),
