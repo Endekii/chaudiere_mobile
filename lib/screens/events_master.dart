@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:chaudiere_mobile/screens/event_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:chaudiere_mobile/models/event.dart';
@@ -10,8 +11,8 @@ Future<List<Event>> fetchEvent() async {
   );
 
   if (response.statusCode == 200) {
-    final Map<String, dynamic> test = jsonDecode(response.body);
-    final List<dynamic> eventsJson = test['evenement'];
+    final Map<String, dynamic> data = jsonDecode(response.body);
+    final List<dynamic> eventsJson = data['evenement'];
     return eventsJson.map((json) => Event.fromJson(json)).toList();
   } else {
     throw Exception('Failed to load event');
@@ -51,9 +52,7 @@ class _EventsMasterState extends State<EventsMaster> {
                 return ListView.builder(
                   itemCount: events.length,
                   itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(events[index].titre),
-                    );
+                    return EventPreview(event: events[index]);
                   },
                 );
               } else if (snapshot.hasError) {

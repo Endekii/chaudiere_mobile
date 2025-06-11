@@ -13,6 +13,8 @@ class EventPreview extends StatefulWidget {
 class _EventPreviewState extends State<EventPreview> {
   @override
   Widget build(BuildContext context) {
+    final categorie = widget.event.getCategorieName();
+    final dateDebut = "${widget.event.dateDebut.day.toString().padLeft(2, '0')}/${widget.event.dateDebut.month.toString().padLeft(2, '0')}/${widget.event.dateDebut.year}";
     return GestureDetector(
       onTap:(){
         Navigator.push(
@@ -24,8 +26,13 @@ class _EventPreviewState extends State<EventPreview> {
       },
       child: ListTile(
           title: Text(widget.event.titre),
-          subtitle: Text(widget.event.description),
-          tileColor: Colors.green
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Catégorie : $categorie"),
+              Text("Date : $dateDebut"),
+            ],
+          ),
       ),
     );
   }
