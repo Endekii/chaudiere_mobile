@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:chaudiere_mobile/models/event.dart';
 
-Future<List<Event>> fetchEvent() async {
+Future<List<Event>> fetchEvents() async {
   final response = await http.get(
     Uri.parse('http://docketu.iutnc.univ-lorraine.fr:13000/api/evenements/'),
   );
@@ -32,7 +32,7 @@ class _EventsMasterState extends State<EventsMaster> {
   @override
   void initState(){
     super.initState();
-    futureEvent = fetchEvent();
+    futureEvent = fetchEvents();
   }
   @override
   Widget build(BuildContext context) {

@@ -25,7 +25,7 @@ class _EventPreviewState extends State<EventPreview> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => EventDetails(widget.event),
+                builder: (context) => EventDetails(widget.event.id),
               ),
             );
           },
