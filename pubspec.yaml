@@ -40,3 +40,9 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: "assets/images/icon.png"
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/icon.png
+  android: true
+  ios: true
