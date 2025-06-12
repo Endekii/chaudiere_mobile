@@ -47,6 +47,9 @@ class _EventsMasterState extends State<EventsMaster> {
 
   List<Event> sortEvents(List<Event> events, List<Map<String, dynamic>>? categories) {
     switch (sortCriteria){
+      case 'date_asc':
+        events.sort((a, b) => a.dateDebut.compareTo(b.dateDebut));
+        break;
       case 'date_desc':
         events.sort((a, b) => b.dateDebut.compareTo(a.dateDebut));
         break;
@@ -65,8 +68,6 @@ class _EventsMasterState extends State<EventsMaster> {
           });
         }
         break;
-      case 'date_asc':
-        events.sort((a, b) => a.dateDebut.compareTo(b.dateDebut));
       default:
     }
     return events;
