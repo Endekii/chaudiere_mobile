@@ -40,19 +40,4 @@ class Event {
       'categorie_id': categorieId,
     };
   }
-  String getCategorieName() {
-    switch (categorieId) {
-      case 1:
-        return "Musique";
-      case 2:
-        return "Sport";
-      case 3:
-        return "Culture";
-      case 4:
-        return "Autre";
-      default:
-        return "Inconnu";
-    }
-  }
-
 }
