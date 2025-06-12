@@ -17,12 +17,12 @@ class Event {
       json['horaire'] != null ? DateTime.tryParse(json['horaire']) : null,
       id: json['id'] as int,
       titre: json['titre'] as String,
-      description: json['description_md'] ?? '', // champ absent dans l'API
-      tarif: json['tarif'] ?? '', // champ absent dans l'API
+      description: json['description_md'] ?? '',
+      tarif: json['tarif'] ?? '',
       dateDebut: DateTime.parse(json['date_debut']),
       image: json['image'] != null && json['image'] is Map<String, dynamic>
           ? (json['image']['href'] ?? '')
-          : '', // champ absent dans l'API
+          : '',
       categorieId: json['categorie_id'] as int,
     );
   }

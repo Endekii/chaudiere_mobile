@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:chaudiere_mobile/screens/event_preview.dart';
 import 'package:chaudiere_mobile/utils/api_utils.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +43,6 @@ class _EventsMasterState extends State<EventsMaster> {
                 return Text('${snapshot.error}');
               }
 
-              // By default, show a loading spinner.
               return const CircularProgressIndicator();
             },
           ),

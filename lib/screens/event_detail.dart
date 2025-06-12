@@ -2,7 +2,6 @@ import 'package:chaudiere_mobile/utils/api_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:chaudiere_mobile/models/event.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:chaudiere_mobile/utils/api_utils.dart';
 
 class EventDetails extends StatefulWidget {
   final int eventId;

@@ -2,7 +2,6 @@ import 'package:chaudiere_mobile/utils/api_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:chaudiere_mobile/models/event.dart';
 import 'package:chaudiere_mobile/screens/event_detail.dart';
-import 'package:chaudiere_mobile/utils/api_utils.dart';
 
 class EventPreview extends StatefulWidget {
   final Event event;
