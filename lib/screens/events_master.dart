@@ -3,9 +3,7 @@ import 'package:chaudiere_mobile/utils/api_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:chaudiere_mobile/models/event.dart';
 import 'package:chaudiere_mobile/screens/event_search.dart';
-import 'package:provider/provider.dart';
 
-import '../providers/ThemeProvider.dart';
 
 class EventsMaster extends StatefulWidget {
   const EventsMaster({super.key});
@@ -33,12 +31,7 @@ class _EventsMasterState extends State<EventsMaster> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Chaudière',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(title: const Text('Liste des événements'),
           actions: [
             IconButton(
@@ -76,7 +69,6 @@ class _EventsMasterState extends State<EventsMaster> {
             },
           ),
         ),
-      ),
-    );
+      );
   }
 }
