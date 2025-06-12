@@ -14,11 +14,26 @@ class EventsMaster extends StatefulWidget {
 
 class _EventsMasterState extends State<EventsMaster> {
   late Future<List<Event>> futureEvent;
+  late Future<List<Map<String, dynamic>>> futureCategories;
+  int? selectedCategorieId;
 
   @override
   void initState(){
     super.initState();
     futureEvent = fetchEvents();
+    futureCategories = fetchCategories();
+    selectedCategorieId = null;
+  }
+
+  Future<void> filterByCategorie(int? categorieId) async {
+    final events = await fetchEvents();
+    final filtered = categorieId == null
+        ? events
+        : events.where((event) => event.categorieId == categorieId).toList();
+    setState(() {
+      selectedCategorieId = categorieId;
+      futureEvent = Future.value(filtered);
+    });
   }
 
   Future<void> searchedEvent(String mot) async{
@@ -32,8 +47,36 @@ class _EventsMasterState extends State<EventsMaster> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Liste des événements'),
+        appBar: AppBar(title: const Text('Event'),
           actions: [
+            FutureBuilder<List<Map<String, dynamic>>>(
+              future: futureCategories,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final List<Map<String, dynamic>> categories = [
+                    {'id': null, 'libelle': 'Tous les événements'}
+                  ];
+                  categories.addAll(snapshot.data!);
+                  return DropdownButton<int?>(
+                    value: selectedCategorieId,
+                    underline: Container(),
+                    icon: const Icon(Icons.filter_list, color: Colors.white),
+                    dropdownColor: Colors.white,
+                    items: categories.map((cat) {
+                      return DropdownMenuItem<int?>(
+                        value: cat['id'] as int?,
+                        child: Text(cat['libelle'].toString()),
+                      );                    
+                    }).toList(),
+                    onChanged: (value) {
+                      filterByCategorie(value);
+                    },
+                  );
+                } else {
+                  return const SizedBox.shrink();
+                }
+              },
+            ),
             IconButton(
               icon: const Icon(Icons.search),
               onPressed: () async{
