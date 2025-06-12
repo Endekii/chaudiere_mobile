@@ -17,7 +17,9 @@ class _EventsMasterState extends State<EventsMaster> {
   late Future<List<Event>> currentEvent;
   late Future<List<Map<String, dynamic>>> futureCategories;
   int? selectedCategorieId;
+  String sortCriteria = '';
   String? currentSearch;
+
 
   @override
   void initState(){
@@ -55,6 +57,34 @@ class _EventsMasterState extends State<EventsMaster> {
       currentSearch = mot;
       currentEvent = Future.value(filtered);
     });
+  }
+
+  List<Event> sortEvents(List<Event> events, List<Map<String, dynamic>>? categories) {
+    switch (sortCriteria){
+      case 'date_asc':
+        events.sort((a, b) => a.dateDebut.compareTo(b.dateDebut));
+        break;
+      case 'date_desc':
+        events.sort((a, b) => b.dateDebut.compareTo(a.dateDebut));
+        break;
+      case 'titre':
+        events.sort((a, b) => a.titre.toLowerCase().compareTo(b.titre.toLowerCase()));
+        break;
+      case 'categorie':
+        if (categories != null) {
+          Map<int, String> catMap = {
+            for (var cat in categories) cat['id'] as int: cat['libelle'] as String
+          };
+          events.sort((a, b) {
+            final catA = catMap[a.categorieId] ?? '';
+            final catB = catMap[b.categorieId] ?? '';
+            return catA.toLowerCase().compareTo(catB.toLowerCase());
+          });
+        }
+        break;
+      default:
+    }
+    return events;
   }
 
   @override
@@ -120,12 +150,22 @@ class _EventsMasterState extends State<EventsMaster> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final events = snapshot.data!;
-                return ListView.builder(
-                  itemCount: events.length,
-                  itemBuilder: (context, index) {
-                    return EventPreview(event: events[index]);
-                  },
+                return FutureBuilder<List<Map<String, dynamic>>>(
+                  future: futureCategories,
+                  builder: (context, catSnapshot) {
+                    final sortedEvents = sortEvents(
+                      List<Event>.from(events),
+                      catSnapshot.data,
+                    );
+                    return ListView.builder(
+                      itemCount: sortedEvents.length,
+                      itemBuilder: (context, index) {
+                        return EventPreview(event: sortedEvents[index]);
+                      },
+                    );
+                  }
                 );
+
               } else if (snapshot.hasError) {
                 return Text('${snapshot.error}');
               }
@@ -134,6 +174,43 @@ class _EventsMasterState extends State<EventsMaster> {
             },
           ),
         ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.sort),
+        onPressed: () async {
+          final selected = await showModalBottomSheet<String>(
+            context: context,
+            builder: (context) => Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.arrow_upward),
+                  title: const Text('Date croissante'),
+                  onTap: () => Navigator.pop(context, 'date_asc'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.arrow_downward),
+                  title: const Text('Date décroissante'),
+                  onTap: () => Navigator.pop(context, 'date_desc'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.sort_by_alpha),
+                  title: const Text('Titre (A-Z)'),
+                  onTap: () => Navigator.pop(context, 'titre'),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.category),
+                  title: const Text('Catégorie (A-Z)'),
+                  onTap: () => Navigator.pop(context, 'categorie'),
+                ),
+              ],
+            ),
+          );
+          if (selected != null) {
+            setState(() {
+              sortCriteria = selected;
+            });
+          }
+        },
       ),
     );
   }
