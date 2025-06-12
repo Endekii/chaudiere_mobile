@@ -1,23 +1,9 @@
 import 'dart:convert';
 
 import 'package:chaudiere_mobile/screens/event_preview.dart';
+import 'package:chaudiere_mobile/utils/api_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:chaudiere_mobile/models/event.dart';
-
-Future<List<Event>> fetchEvents() async {
-  final response = await http.get(
-    Uri.parse('http://docketu.iutnc.univ-lorraine.fr:13000/api/evenements/'),
-  );
-
-  if (response.statusCode == 200) {
-    final Map<String, dynamic> data = jsonDecode(response.body);
-    final List<dynamic> eventsJson = data['evenement'];
-    return eventsJson.map((json) => Event.fromJson(json)).toList();
-  } else {
-    throw Exception('Failed to load event');
-  }
-}
 
 class EventsMaster extends StatefulWidget {
   const EventsMaster({super.key});
