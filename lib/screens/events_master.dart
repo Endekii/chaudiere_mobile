@@ -37,7 +37,7 @@ class _EventsMasterState extends State<EventsMaster> {
   }
 
   Future<void> searchedEvent(String mot) async{
-    final events = await fetchEvents();
+    final events = await futureEvent;
     final filtered = events.where((event) => event.titre.toLowerCase().contains(mot.toLowerCase())).toList();
     setState(() {
       futureEvent = Future.value(filtered);
@@ -60,8 +60,7 @@ class _EventsMasterState extends State<EventsMaster> {
                   return DropdownButton<int?>(
                     value: selectedCategorieId,
                     underline: Container(),
-                    icon: const Icon(Icons.filter_list, color: Colors.white),
-                    dropdownColor: Colors.white,
+                    icon: const Icon(Icons.filter_list),
                     items: categories.map((cat) {
                       return DropdownMenuItem<int?>(
                         value: cat['id'] as int?,
