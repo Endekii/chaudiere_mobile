@@ -1,6 +1,8 @@
 import 'package:chaudiere_mobile/utils/api_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:chaudiere_mobile/models/event.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:chaudiere_mobile/utils/api_utils.dart';
 
 class EventDetails extends StatefulWidget {
   final int eventId;
@@ -50,13 +52,13 @@ class _EventDetailsState extends State<EventDetails> {
                   if (event.image.isNotEmpty)
                     Center(
                       child: Image.network(
-                        'http://docketu.iutnc.univ-lorraine.fr:13000/${event.image}',
+                        '$url${event.image}',
                         errorBuilder: (context, error, stackTrace) => const Icon(Icons.image_not_supported),
                         height: 200,
                       ),
                     ),
                   const SizedBox(height: 12),
-                  Text(event.description, style: const TextStyle(fontSize: 16)),
+                  MarkdownBody(data: event.description),
                   const SizedBox(height: 12),
                   Text("Tarif : ${event.tarif.isNotEmpty ? event.tarif : 'Non renseigné'}"),
                   const SizedBox(height: 8),
