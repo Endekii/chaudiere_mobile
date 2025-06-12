@@ -2,6 +2,7 @@ import 'package:chaudiere_mobile/screens/event_preview.dart';
 import 'package:chaudiere_mobile/utils/api_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:chaudiere_mobile/models/event.dart';
+import 'package:chaudiere_mobile/screens/event_search.dart';
 
 class EventsMaster extends StatefulWidget {
   const EventsMaster({super.key});
@@ -18,6 +19,15 @@ class _EventsMasterState extends State<EventsMaster> {
     super.initState();
     futureEvent = fetchEvents();
   }
+
+  Future<void> searchedEvent(String mot) async{
+    final events = await fetchEvents();
+    final filtered = events.where((event) => event.titre.toLowerCase().contains(mot.toLowerCase())).toList();
+    setState(() {
+      futureEvent = Future.value(filtered);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +36,21 @@ class _EventsMasterState extends State<EventsMaster> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       home: Scaffold(
-        appBar: AppBar(title: const Text('Liste des événements')),
+        appBar: AppBar(title: const Text('Liste des événements'),
+          actions: [
+            FloatingActionButton(onPressed: () async{
+              final result = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EventSearch(),
+                ),
+              );
+              if (result != null && result is String){
+                searchedEvent(result);
+              }
+            }),
+          ],
+        ),
         body: Center(
           child: FutureBuilder<List<Event>>(
             future: futureEvent,
