@@ -59,7 +59,17 @@ class _EventsMasterState extends State<EventsMaster> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            futureEvent = fetchEvents();
+            futureCategories = fetchCategories();
+            selectedCategorieId = null;
+            currentSearch = null;
+            currentEvent = futureEvent;
+          });
+        },
+        child: Scaffold(
         appBar: AppBar(title: const Text('Event'),
           actions: [
             FutureBuilder<List<Map<String, dynamic>>>(
@@ -124,6 +134,7 @@ class _EventsMasterState extends State<EventsMaster> {
             },
           ),
         ),
-      );
+      ),
+    );
   }
 }
