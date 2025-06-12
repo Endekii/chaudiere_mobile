@@ -17,9 +17,11 @@ class _EventSearchState extends State<EventSearch> {
       appBar: AppBar(title: const Text('Chercher un événement')),
       body: Form(
         key: _formKey,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
             TextFormField(
               controller: _searchController,
               validator: (value) {
@@ -30,7 +32,9 @@ class _EventSearchState extends State<EventSearch> {
               },
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: const EdgeInsets.only(top: 16.0),
+            ),
+            Center(
               child: ElevatedButton(
                 onPressed: (){
                   if(_formKey.currentState!.validate()){
@@ -39,10 +43,11 @@ class _EventSearchState extends State<EventSearch> {
                 },
                 child: const Text('Chercher'),
               ),
-            )
-          ],
-        ),
-      )
+            ),
+            ],
+          ),
+        )
+      ),
     );
   }
 }

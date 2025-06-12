@@ -14,9 +14,12 @@ class EventsMaster extends StatefulWidget {
 
 class _EventsMasterState extends State<EventsMaster> {
   late Future<List<Event>> futureEvent;
+  late Future<List<Event>> currentEvent;
   late Future<List<Map<String, dynamic>>> futureCategories;
   int? selectedCategorieId;
   String sortCriteria = '';
+  String? currentSearch;
+
 
   @override
   void initState(){
@@ -24,24 +27,35 @@ class _EventsMasterState extends State<EventsMaster> {
     futureEvent = fetchEvents();
     futureCategories = fetchCategories();
     selectedCategorieId = null;
+    currentSearch = null;
+    currentEvent = futureEvent;
   }
 
   Future<void> filterByCategorie(int? categorieId) async {
-    final events = await fetchEvents();
+    final List<Event> events = await futureEvent;
     final filtered = categorieId == null
         ? events
         : events.where((event) => event.categorieId == categorieId).toList();
     setState(() {
       selectedCategorieId = categorieId;
-      futureEvent = Future.value(filtered);
+      currentEvent = Future.value(filtered);
     });
+    if(currentSearch != null && currentSearch!.isNotEmpty) {
+      searchedEvent(currentSearch!);
+    }
   }
 
   Future<void> searchedEvent(String mot) async{
-    final events = await fetchEvents();
+    final List<Event> events;
+    if(selectedCategorieId != null){
+      events = await currentEvent;
+    }else {
+      events = await futureEvent;
+    }
     final filtered = events.where((event) => event.titre.toLowerCase().contains(mot.toLowerCase())).toList();
     setState(() {
-      futureEvent = Future.value(filtered);
+      currentSearch = mot;
+      currentEvent = Future.value(filtered);
     });
   }
 
@@ -75,7 +89,17 @@ class _EventsMasterState extends State<EventsMaster> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return RefreshIndicator(
+        onRefresh: () async {
+          setState(() {
+            futureEvent = fetchEvents();
+            futureCategories = fetchCategories();
+            selectedCategorieId = null;
+            currentSearch = null;
+            currentEvent = futureEvent;
+          });
+        },
+        child: Scaffold(
         appBar: AppBar(title: const Text('Event'),
           actions: [
             FutureBuilder<List<Map<String, dynamic>>>(
@@ -89,8 +113,7 @@ class _EventsMasterState extends State<EventsMaster> {
                   return DropdownButton<int?>(
                     value: selectedCategorieId,
                     underline: Container(),
-                    icon: const Icon(Icons.filter_list, color: Colors.white),
-                    dropdownColor: Colors.white,
+                    icon: const Icon(Icons.filter_list),
                     items: categories.map((cat) {
                       return DropdownMenuItem<int?>(
                         value: cat['id'] as int?,
@@ -123,7 +146,7 @@ class _EventsMasterState extends State<EventsMaster> {
         ),
         body: Center(
           child: FutureBuilder<List<Event>>(
-            future: futureEvent,
+            future: currentEvent,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final events = snapshot.data!;
