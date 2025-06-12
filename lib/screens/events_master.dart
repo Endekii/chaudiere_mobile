@@ -38,7 +38,9 @@ class _EventsMasterState extends State<EventsMaster> {
       home: Scaffold(
         appBar: AppBar(title: const Text('Liste des événements'),
           actions: [
-            FloatingActionButton(onPressed: () async{
+            IconButton(
+              icon: const Icon(Icons.search),
+              onPressed: () async{
               final result = await Navigator.push(
                 context,
                 MaterialPageRoute(
