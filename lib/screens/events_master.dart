@@ -14,8 +14,10 @@ class EventsMaster extends StatefulWidget {
 
 class _EventsMasterState extends State<EventsMaster> {
   late Future<List<Event>> futureEvent;
+  late Future<List<Event>> currentEvent;
   late Future<List<Map<String, dynamic>>> futureCategories;
   int? selectedCategorieId;
+  String? currentSearch;
 
   @override
   void initState(){
@@ -23,24 +25,35 @@ class _EventsMasterState extends State<EventsMaster> {
     futureEvent = fetchEvents();
     futureCategories = fetchCategories();
     selectedCategorieId = null;
+    currentSearch = null;
+    currentEvent = futureEvent;
   }
 
   Future<void> filterByCategorie(int? categorieId) async {
-    final events = await fetchEvents();
+    final List<Event> events = await futureEvent;
     final filtered = categorieId == null
         ? events
         : events.where((event) => event.categorieId == categorieId).toList();
     setState(() {
       selectedCategorieId = categorieId;
-      futureEvent = Future.value(filtered);
+      currentEvent = Future.value(filtered);
     });
+    if(currentSearch != null && currentSearch!.isNotEmpty) {
+      searchedEvent(currentSearch!);
+    }
   }
 
   Future<void> searchedEvent(String mot) async{
-    final events = await futureEvent;
+    final List<Event> events;
+    if(selectedCategorieId != null){
+      events = await currentEvent;
+    }else {
+      events = await futureEvent;
+    }
     final filtered = events.where((event) => event.titre.toLowerCase().contains(mot.toLowerCase())).toList();
     setState(() {
-      futureEvent = Future.value(filtered);
+      currentSearch = mot;
+      currentEvent = Future.value(filtered);
     });
   }
 
@@ -93,7 +106,7 @@ class _EventsMasterState extends State<EventsMaster> {
         ),
         body: Center(
           child: FutureBuilder<List<Event>>(
-            future: futureEvent,
+            future: currentEvent,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 final events = snapshot.data!;
