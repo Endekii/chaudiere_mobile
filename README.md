@@ -51,7 +51,7 @@ Affichez les événements correspondant à une catégorie
 
 ↕️ 6. Tri de la liste des événements
 
-Organisez la liste des événements par date ascendante ou descendante, ordre alphabétique (titre ou catégorie
+Organisez la liste des événements par date ascendante ou descendante, ordre alphabétique (titre ou catégorie)
 
 
 
