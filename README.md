@@ -9,6 +9,7 @@ Application mobile de LaChaudière
 
 
 📅 2. Affichage des événements
+
 Liste dynamique des événements
 
 📷 Capture d'écran :
@@ -17,6 +18,7 @@ Liste dynamique des événements
 
 
 🔍 3. Recherche d’un événement par le titre
+
 Recherchez un événement en saisissant son nom.
 
 📷 Capture d'écran :
@@ -26,6 +28,7 @@ Recherchez un événement en saisissant son nom.
 
 
 📖 4. Affichage des détails d’un événement
+
 Appuyez sur un événement pour accéder aux détails
 
 📷 Capture d'écran :
@@ -34,6 +37,7 @@ Appuyez sur un événement pour accéder aux détails
 
 
 🧩 5. Filtrage de la liste par catégorie
+
 Affichez les événements correspondant à une catégorie
 
 📷 Capture d'écran :
@@ -46,11 +50,13 @@ Affichez les événements correspondant à une catégorie
 
 
 ↕️ 6. Tri de la liste des événements
+
 Organisez la liste des événements par date ascendante ou descendante, ordre alphabétique (titre ou catégorie
 
 
 
 🌗 7. Thème light/dark via Provider
+
 L’utilisateur peut basculer entre les thèmes clair et sombre pour un meilleur confort visuel.
 
 📷 Capture d'écran :
