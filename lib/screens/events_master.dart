@@ -212,6 +212,7 @@ class _EventsMasterState extends State<EventsMaster> {
           }
         },
       ),
+    )
     );
   }
 }
